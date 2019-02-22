@@ -1,4 +1,4 @@
-FROM centos/s2i-core-centos7
+FROM rhscl/s2i-core-rhel7:1
 
 # RHSCL rh-nginx18 image.
 #
@@ -28,20 +28,20 @@ LABEL summary="${SUMMARY}" \
       io.openshift.expose-services="8443:https" \
       io.openshift.tags="builder,${NAME},rh-${NAME}${NGINX_SHORT_VER}" \
       com.redhat.component="rh-${NAME}${NGINX_SHORT_VER}-container" \
-      name="centos/${NAME}-${NGINX_SHORT_VER}-centos7" \
+      name="rhscl/${NAME}-${NGINX_SHORT_VER}-rhel7" \
       version="${NGINX_VERSION}" \
       maintainer="SoftwareCollections.org <sclorg@redhat.com>" \
       help="For more information visit https://github.com/sclorg/${NAME}-container" \
-      usage="s2i build <SOURCE-REPOSITORY> centos/${NAME}-${NGINX_SHORT_VER}-centos7:latest <APP-NAME>"
+      usage="s2i build <SOURCE-REPOSITORY> rhscl/${NAME}-${NGINX_SHORT_VER}-rhel7:latest <APP-NAME>"
 
 ENV NGINX_CONFIGURATION_PATH=${APP_ROOT}/etc/nginx.d \
     NGINX_DEFAULT_CONF_PATH=${APP_ROOT}/etc/nginx.default.d \
     NGINX_CONTAINER_SCRIPTS_PATH=/usr/share/container-scripts/nginx \
     NGINX_APP_ROOT=${APP_ROOT}
 
-RUN yum install -y yum-utils gettext hostname && \
-    yum install -y centos-release-scl-rh && \
-    INSTALL_PKGS="nss_wrapper bind-utils rh-nginx18 rh-nginx18-nginx" && \
+RUN yum install -y yum-utils && \
+    prepare-yum-repositories rhel-server-rhscl-7-rpms && \
+    INSTALL_PKGS="nss_wrapper bind-utils gettext hostname rh-nginx18 rh-nginx18-nginx" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum clean all
@@ -55,19 +55,16 @@ COPY ./root/ /
 # In order to drop the root user, we have to make some directories world
 # writeable as OpenShift default security model is to run the container under
 # random UID.
-RUN sed -i -f ${NGINX_APP_ROOT}/nginxconf.sed /etc/opt/rh/rh-nginx${NGINX_SHORT_VER}/nginx/nginx.conf && \
+RUN sed -i -f ${NGINX_APP_ROOT}/nginxconf.sed /etc/opt/rh/rh-nginx18/nginx/nginx.conf && \
     mkdir -p ${NGINX_APP_ROOT}/etc/nginx.d/ && \
     mkdir -p ${NGINX_APP_ROOT}/etc/nginx.default.d/ && \
     mkdir -p ${NGINX_APP_ROOT}/src/nginx-start/ && \
     mkdir -p ${NGINX_CONTAINER_SCRIPTS_PATH}/nginx-start && \
-    mkdir -p /var/opt/rh/rh-nginx${NGINX_SHORT_VER}/log/nginx && \
-    ln -sf /dev/stdout /var/opt/rh/rh-nginx${NGINX_SHORT_VER}/log/nginx/access.log && \
-    ln -sf /dev/stderr /var/opt/rh/rh-nginx${NGINX_SHORT_VER}/log/nginx/error.log && \
     chmod -R a+rwx ${NGINX_APP_ROOT}/etc && \
-    chmod -R a+rwx /var/opt/rh/rh-nginx${NGINX_SHORT_VER} && \
+    chmod -R a+rwx /var/opt/rh/rh-nginx18 && \
     chmod -R a+rwx ${NGINX_CONTAINER_SCRIPTS_PATH}/nginx-start && \
     chown -R 1001:0 ${NGINX_APP_ROOT} && \
-    chown -R 1001:0 /var/opt/rh/rh-nginx${NGINX_SHORT_VER} && \
+    chown -R 1001:0 /var/opt/rh/rh-nginx18 && \
     chown -R 1001:0 ${NGINX_CONTAINER_SCRIPTS_PATH}/nginx-start && \
     rpm-file-permissions
 
