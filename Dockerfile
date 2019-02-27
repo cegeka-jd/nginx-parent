@@ -1,15 +1,18 @@
-FROM rhel7:latest
+FROM registry.lab.example.com:5000/rhel7:7.3
 
-# Custom Nginx Parent Dockerfile
-#
+MAINTAINER Red Hat Training <training@redhat.com>
 
-LABEL summary="${SUMMARY}" \
-      description="${DESCRIPTION}" \
-      io.k8s.description="${DESCRIPTION}" \
-      io.k8s.display-name="Nginx ${NGINX_VERSION}" \
+# Generic labels
+LABEL Component="nginx" \
+      Name="do288/nginx-parent" \
+      Version="1.0" \
+      Release="1"
+
+# Labels consumed by OpenShift
+LABEL io.k8s.description="A basic Nginx Server image with ONBUILD instructions" \
+      io.k8s.display-name="Nginx Server parent image" \
       io.openshift.expose-services="80:http" \
-      name="${NAME}-${NGINX_SHORT_VER}-rhel7" \
-      version="${NGINX_VERSION}"
+      io.openshift.tags="apache, httpd"
 
 COPY nginx.repo /etc/yum.repos.d/nginx.repo  
 
