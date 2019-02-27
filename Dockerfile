@@ -1,4 +1,4 @@
-FROM registry.lab.example.com:5000/rhel7:7.3
+FROM rhel7:7.3
 
 MAINTAINER Red Hat Training <training@redhat.com>
 
