@@ -23,8 +23,8 @@ RUN yum install -y nginx && \
 
 # Describe Nginx
 ENV NAME=nginx \
-    NGINX_VERSION=1.14 \
-    NGINX_SHORT_VER=114 \
+    NGINX_VERSION=1.15 \
+    NGINX_SHORT_VER=115 \
     VERSION=0 \
     SUMMARY="Platform for running nginx $NGINX_VERSION or building nginx-based application"
     
