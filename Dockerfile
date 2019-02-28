@@ -18,7 +18,7 @@ ADD nginx.repo /etc/yum.repos.d/nginx.repo
 
 RUN yum install -y nginx && \
     yum clean all -y && \
-    sed -i 's/\/var\/www\/html/\/usr\/share\/nginx\/html' /etc/nginx/sites-enabled && \
+    sed -i 's/\/var\/www\/html/\/usr\/share\/nginx\/html/g' /etc/nginx/sites-enabled && \
     echo "Hello from the nginx-parent container!" > /usr/share/nginx/html/index.html
 
 # Describe Nginx
