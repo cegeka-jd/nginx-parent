@@ -44,3 +44,4 @@ ONBUILD COPY src/ /usr/share/nginx/html/
 #
 #ENTRYPOINT
 #CMD ["nginx", "-g", "daemon off;"]
+CMD bash -c echo "hello"
