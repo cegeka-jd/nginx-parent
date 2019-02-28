@@ -18,12 +18,12 @@ ADD nginx.repo /etc/yum.repos.d/nginx.repo
 
 RUN yum install -y nginx && \
     yum clean all -y && \
-    echo "Hello from the nginx-parent container!" > /usr/share/nginx/html/index.html
+    echo "Hello from the nginx parent container!" > /usr/share/nginx/html/index.html
     
 
 # Describe Nginx
 ENV NAME=nginx \
-    NGINX_VERSION=1.15 \
+    NGINX_VERSION=1.15 \S
     NGINX_SHORT_VER=115 \
     VERSION=0 \
     SUMMARY="Platform for running nginx $NGINX_VERSION or building nginx-based application"
