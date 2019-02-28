@@ -18,8 +18,8 @@ ADD nginx.repo /etc/yum.repos.d/nginx.repo
 
 RUN yum install -y nginx && \
     yum clean all -y && \
-#    sed -i 's/\/var\/www\/html/\/usr\/share\/nginx\/html/g' /etc/nginx/sites-enabled && \
     echo "Hello from the nginx-parent container!" > /usr/share/nginx/html/index.html
+    
 
 # Describe Nginx
 ENV NAME=nginx \
@@ -38,10 +38,9 @@ ENV NAME=nginx \
 EXPOSE 80
 
 # Allows child images to inject their own content into DocumentRoot
-ONBUILD COPY src/ /usr/share/nginx/html/ 
+ONBUILD COPY src/ /usr/share/nginx/html/
 
 # Start Nginx
 #
 #ENTRYPOINT
-#CMD ["nginx", "-g", "daemon off;"]
-CMD bash -c echo "hello"
+CMD ["nginx", "-g", "daemon off;"]
