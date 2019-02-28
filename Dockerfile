@@ -1,4 +1,4 @@
-FROM rhel7:7.3
+FROM rhel7:latest
 
 MAINTAINER Red Hat Training <training@redhat.com>
 
