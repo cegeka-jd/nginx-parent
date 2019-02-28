@@ -16,7 +16,7 @@ LABEL io.k8s.description="A basic Nginx Server image with ONBUILD instructions" 
 
 ADD nginx.repo /etc/yum.repos.d/nginx.repo
 
-RUN yum install -y nginx && \
+RUN yum install -y nginx-1.8.0-1 && \
     yum clean all -y && \
     sed -i 's/\/var\/www\/html/\/usr\/share\/nginx\/html/g' /etc/nginx/sites-enabled && \
     echo "Hello from the nginx-parent container!" > /usr/share/nginx/html/index.html
