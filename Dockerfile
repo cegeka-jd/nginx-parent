@@ -43,4 +43,4 @@ ONBUILD COPY src/ /usr/share/nginx/html/
 # Start Nginx
 #
 #ENTRYPOINT
-CMD ["nginx", "-g", "daemon off;"]
+#CMD ["nginx", "-g", "daemon off;"]
