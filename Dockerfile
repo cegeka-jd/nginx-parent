@@ -1,4 +1,4 @@
-FROM registry.redhat.io:rhel7:latest
+FROM registry.redhat.io/rhel7:latest
 
 MAINTAINER Red Hat Training <training@redhat.com>
 
