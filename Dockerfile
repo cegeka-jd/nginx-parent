@@ -1,4 +1,4 @@
-FROM rhel7:latest
+FROM access.repository.redhat.com:rhel7:latest
 
 MAINTAINER Red Hat Training <training@redhat.com>
 
